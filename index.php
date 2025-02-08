@@ -14,6 +14,20 @@ function is_mobile() {
     return false; // 如果没有找到关键词，返回false表示不是移动设备
 }
 
+// 判断当前设备是否为手表的函数
+function is_watch() {
+    $user_agent = $_SERVER['HTTP_USER_AGENT']; // 获取用户代理字符串
+    $watch_agents = array('Watch', 'Huaweiwatch'); // 定义手表设备关键词数组
+
+    // 遍历手表设备关键词数组，检查用户代理字符串中是否包含这些关键词
+    foreach ($watch_agents as $watch_agent) {
+        if (stripos($user_agent, $watch_agent) !== false) {
+            return true; // 如果找到关键词，返回true表示是手表设备
+        }
+    }
+    return false; // 如果没有找到关键词，返回false表示不是手表设备
+}
+
 // 从指定的txt文件中随机获取一条图片链接的函数
 function get_random_image($filename) {
     $image_urls = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES); // 读取txt文件的每一行，存储到一个数组中
@@ -34,8 +48,19 @@ function output_image($image_url) {
     echo file_get_contents($image_url); // 读取并输出图片内容
 }
 
-$is_mobile = is_mobile(); // 判断当前设备是否为移动设备
-$filename = $is_mobile ? 'miu.txt' : 'piu.txt'; // 根据设备类型选择相应的txt文件
+// 判断当前设备是否为移动设备和手表设备
+$is_mobile = is_mobile();
+$is_watch = is_watch();
+
+// 根据设备类型选择相应的txt文件
+if ($is_watch) {
+    $filename = 'ghf.txt'; // 如果是手表设备，使用fiu.txt
+} elseif ($is_mobile) {
+    $filename = 'ghm.txt'; // 如果是移动设备，使用miu.txt
+} else {
+    $filename = 'ghpc.txt'; // 如果是桌面设备，使用piu.txt
+}
+
 $image_url = get_random_image($filename); // 从txt文件中随机获取一条图片链接
 
 if ($image_url) {

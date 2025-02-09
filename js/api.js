@@ -37,11 +37,11 @@ exports.handler = async (event) => {
 
     // 根据设备类型选择相应的txt文件
     if (isWatchDevice) {
-        filename = './tc/fiu.txt';
+        filename = 'ghf.txt';
     } else if (isMobileDevice) {
-        filename = './tc/miu.txt';
+        filename = 'ghm.txt';
     } else {
-        filename = './tc/piu.txt';
+        filename = 'ghpc.txt';
     }
 
     const imageUrl = getRandomImage(filename);

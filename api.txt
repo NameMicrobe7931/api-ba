@@ -1,0 +1,2 @@
+https://api.ikgy.top/js/api.js
+https://apitp.netlify.app/js/api.js

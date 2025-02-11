@@ -1,16 +1,145 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
+<!DOCTYPE html>                                         <html lang="en">
+<head>                                                      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>api-hone</title>
+    <title>ikgy.top--API Interface Home Page</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden; /* 隐藏水平滚动条 */
+        }
+                                                                body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;                                 align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* 确保内容显示完全 */
+            margin: 20px; /* 增加边距，提升可读性 */
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            width: 80%; /* 确保按钮在小屏幕上宽度适中 */
+            min-width: 250px; /* 最小宽度适应移动端 */
+            text-align: center;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .success {
+            background-color: #e0ffe0;
+            color: #2e7d32;
+        }
+
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        a {
+            display: block;
+            margin: 20px;
+            width: 80%;
+            text-align: center;
+        }
+
+        iframe {
+            display: block;
+            margin: 20px auto;
+            width: 300px; /* 调整宽度适应移动端 */
+            height: 50px; /* 调整高度适应移动端 */
+        }
+
+        p {
+            text-align: center;
+            line-height: 1.6;
+            width: 80%;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>您正在访问的是api.ikgy.top外网分流站点</h1>
-    <h2>点击此<a href="https://apitp.netlify.app/js/api.js">链接</a>跳转到api接口</h2>
+    <h1>Welcome to api.ikgy.top</h1>
+    <h3>The API of this site uses github+netlify to offload<br />
+    All APIs use the Asia-Pacific CDN<br />
+    APIs are adaptive APIs</h3>
+    <h2 style="color: red;">Do not attack this site and the API</h2>
+    <h2>CN-interface</h2>
+    <button class="copyButton" data-key="0">js interface - click copy</button>
+    <h2>Global (foreign) interfaces</h2>
+    <button class="copyButton" data-key="1">js interface - click copy</button>
+    <div id="status" class="status"></div>
+    <h3><a href="https://api.ikgy.top/api.php">Demo site</a></h3>
+    <p>What? You think this thing is ugly?<br />
+    Then put a backlink for you and make up for it yourself 😡</p>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0"
+        src="https://i.y.qq.com/n2/m/outchain/player/index.html?songid=330436570&songtype=0"></iframe>
+    <p>Available in English by Bing Translations</p>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0"
+        src="https://i.y.qq.com/n2/m/outchain/player/index.html?songid=424148254&songtype=0"></iframe>
+
+    <script>
+        (async () => {
+            const status = document.getElementById('status');
+            const fileContentCache = {}; // 缓存文件内容
+            const apiUrl = 'api.txt'; // 文件路径
+
+            // 获取文件内容
+            async function fetchFileContent() {
+                if (fileContentCache[apiUrl]) {
+                    return fileContentCache[apiUrl];
+                }
+
+                try {
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const text = await response.text();
+                    fileContentCache[apiUrl] = text.split('\n'); // 按行分割文本
+                    return fileContentCache[apiUrl];
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            // 初始化按钮事件
+            document.querySelectorAll('.copyButton').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const lineIndex = parseInt(button.dataset.key);
+                    try {
+                        const lines = await fetchFileContent();
+                        if (lineIndex >= lines.length) {
+                            throw new Error('行号超出文 件范围');
+                        }
+
+                        const text = lines[lineIndex].trim();
+                        await navigator.clipboard.writeText(text);
+                        status.className = 'status success';
+                        status.textContent = `copy...done`;
+                    } catch (error) {
+                        status.className = 'status error';
+                        status.textContent = `copy error`;
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
-
-
-
-

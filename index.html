@@ -1,5 +1,7 @@
-<!DOCTYPE html>                                         <html lang="en">
-<head>                                                      <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ikgy.top--API Interface Home Page</title>
     <style>
@@ -7,15 +9,17 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            overflow-x: hidden; /* 隐藏水平滚动条 */
+            overflow-x: hidden;
         }
-                                                                body {
+
+        body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;                                 align-items: center;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            min-height: 100vh; /* 确保内容显示完全 */
-            margin: 20px; /* 增加边距，提升可读性 */
+            min-height: 100vh;
+            margin: 20px;
         }
 
         h1, h2, h3 {
@@ -28,8 +32,8 @@
             font-size: 18px;
             margin: 10px;
             cursor: pointer;
-            width: 80%; /* 确保按钮在小屏幕上宽度适中 */
-            min-width: 250px; /* 最小宽度适应移动端 */
+            width: 80%;
+            min-width: 250px;
             text-align: center;
         }
 
@@ -62,8 +66,8 @@
         iframe {
             display: block;
             margin: 20px auto;
-            width: 300px; /* 调整宽度适应移动端 */
-            height: 50px; /* 调整高度适应移动端 */
+            width: 300px;
+            height: 50px;
         }
 
         p {
@@ -97,10 +101,10 @@
     <script>
         (async () => {
             const status = document.getElementById('status');
-            const fileContentCache = {}; // 缓存文件内容
-            const apiUrl = 'api.txt'; // 文件路径
+            const fileContentCache = {}; // Cache file content
+            const apiUrl = 'api.txt'; // File path
 
-            // 获取文件内容
+            // Fetch file content
             async function fetchFileContent() {
                 if (fileContentCache[apiUrl]) {
                     return fileContentCache[apiUrl];
@@ -112,21 +116,21 @@
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const text = await response.text();
-                    fileContentCache[apiUrl] = text.split('\n'); // 按行分割文本
+                    fileContentCache[apiUrl] = text.split('\n'); // Split text by line
                     return fileContentCache[apiUrl];
                 } catch (error) {
                     throw error;
                 }
             }
 
-            // 初始化按钮事件
+            // Initialize button events
             document.querySelectorAll('.copyButton').forEach(button => {
                 button.addEventListener('click', async () => {
                     const lineIndex = parseInt(button.dataset.key);
                     try {
                         const lines = await fetchFileContent();
                         if (lineIndex >= lines.length) {
-                            throw new Error('行号超出文 件范围');
+                            throw new Error('Line index out of file range');
                         }
 
                         const text = lines[lineIndex].trim();
